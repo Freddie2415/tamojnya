@@ -80,6 +80,7 @@ class SiteController extends Controller
             'all' => $all
         ]);
     }
+
     public function actionNew()
     {
         $model = Cars::find()->where(['status' => 'in_progress'])->all();
@@ -93,16 +94,17 @@ class SiteController extends Controller
             'accepted' => $accepted,
             'rejected' => $rejected,
             'all' => $all
-       
+
         ]);
     }
+
     public function actionAccepted()
     {
         $model = Cars::find()->where(['status' => 'accepted'])->all();
         $new = Cars::find()->where(['status' => 'in_progress'])->count();
         $accepted = Cars::find()->where(['status' => 'accepted'])->count();
         $rejected = Cars::find()->where(['status' => 'denied'])->count();
-       $all = $new + $accepted + $rejected;
+        $all = $new + $accepted + $rejected;
         return $this->render('//cars/index2', [
             'model' => $model,
             'new' => $new,
@@ -111,6 +113,7 @@ class SiteController extends Controller
             'all' => $all,
         ]);
     }
+
     public function actionRejected()
     {
         $model = Cars::find()->where(['status' => 'denied'])->all();
@@ -124,7 +127,7 @@ class SiteController extends Controller
             'accepted' => $accepted,
             'rejected' => $rejected,
             'all' => $all
-       
+
         ]);;
     }
 
@@ -163,7 +166,7 @@ class SiteController extends Controller
 
         Yii::$app->user->logout();
 
-        
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -202,20 +205,58 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        $model = Cars::find()->all();
-        $new = Cars::find()->where(['status' => 'in_progress'])->count();
-        $accepted = Cars::find()->where(['status' => 'accepted'])->count();
-        $rejected = Cars::find()->where(['status' => 'denied'])->count();
-        $all = $new + $accepted + $rejected;
-        $totalCost = Cars::find()->sum('cost');
+        $startDate = Yii::$app->request->get('start-date');
+        $endDate = Yii::$app->request->get('end-date');
+
+        // Преобразование формата даты, если заданы начальная и конечная даты
+        if ($startDate !== null && $endDate !== null) {
+            $startDate = \DateTime::createFromFormat('d/m/Y', $startDate)->format('Y-m-d');
+            $endDate = \DateTime::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+
+            // Добавление времени к начальной и конечной датам
+            $startDate .= ' 00:00:00';
+            $endDate .= ' 23:59:59';
+        } else {
+            $startDate = date('Y-m-01 00:00:00'); // Первый день текущего месяца
+            $endDate = date('Y-m-t 23:59:59');
+        }
+
+        // Запрос к базе данных с учетом диапазона дат или без него
+        $accepted = Cars::find()
+            ->andWhere(['between', 'arrivedDate', $startDate, $endDate])
+            ->count();
+
+        $rejected = Cars::find()
+            ->where(['status' => 'denied'])
+            ->andWhere(['between', 'departureDate', $startDate, $endDate])
+            ->count();
+
+        $totalCost = Cars::find()
+            ->where(['status' => 'denied'])
+            ->andWhere(['between', 'departureDate', $startDate, $endDate])
+            ->sum('cost');
+
+        // Запрос общее кол-во машин на стоянке
+        $all = Cars::find()
+            ->where([
+                'status' => [
+                    'in_progress',
+                    'accepted',
+                ]
+            ])
+            ->count();
+
+        // Перевод начальной и конечной дат обратно в формат 'd/m/Y'
+        $startDate = \DateTime::createFromFormat('Y-m-d H:i:s', $startDate)->format('d/m/Y');
+        $endDate = \DateTime::createFromFormat('Y-m-d H:i:s', $endDate)->format('d/m/Y');
 
         return $this->render('about', [
-            'model' => $model,
-            'new' => $new,
             'accepted' => $accepted,
             'rejected' => $rejected,
             'all' => $all,
             'totalCost' => $totalCost,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
         ]);
     }
 }

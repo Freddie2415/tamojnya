@@ -4,16 +4,6 @@
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
 
-
-use kartik\datetime\DateTimePicker;
-use kartik\datetime\DateTimePickerAsset;
-
-// Регистрация AssetBundle
-DateTimePickerAsset::register($this);
-
-// Include required JavaScript files
-// JqueryAsset::register($this);
-// DateTimePickerAsset::register($this);
 ?>
 
 <!-- Content Wrapper -->
@@ -54,7 +44,7 @@ DateTimePickerAsset::register($this);
 
         </nav>
         <!-- End of Topbar -->
-        <h1 class="h3 mb-3 text-gray-800  text-center"><?=Yii::t('main', 'Статистика')?></h1>
+        <h1 class="h3 mb-3 text-gray-800  text-center"><?= Yii::t('main', 'Статистика') ?></h1>
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Pending Requests Card Example -->
@@ -68,7 +58,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-s font-weight-bold text-primary text-uppercase mb-1 text-center">
-                                        <?=Yii::t('main', 'Общее количество машин')?>
+                                            <?= Yii::t('main', 'Общее количество машин на стоянке') ?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800 mt-2 text-center"><?= $all ?></div>
                                     </div>
@@ -79,38 +69,34 @@ DateTimePickerAsset::register($this);
                     </a>
                 </div>
             </div>
-
-            <div class="row mb-3">
-
-                <div class="col-6">
-                    <?php
-                    echo '<label>Дата начала</label>';
-                    echo DateTimePicker::widget([
-                        'name' => 'start_date',
-                        'type' => DateTimePicker::TYPE_INPUT,
-                        'value' => date('Y-m-d H:i:s'),
-                        'pluginOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd hh:ii:ss',
-                        ]
-                    ]);
-                    ?>
+            <form id="statistics-filter" method="get">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="form-group mb-4">
+                            <div class="datepicker date input-group">
+                                <input name="start-date" type="text" placeholder="Start date" class="form-control"
+                                       value="<?= $startDate ?? "" ?>"
+                                       id="start-date">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-4">
+                            <div class="datepicker date input-group">
+                                <input name="end-date" type="text" placeholder="End date" class="form-control"
+                                       value="<?= $endDate ?? "" ?>"
+                                       id="end-date">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <?php
-                    echo '<label>Дата окончания</label>';
-                    echo DateTimePicker::widget([
-                        'name' => 'end_date',
-                        'type' => DateTimePicker::TYPE_INPUT,
-                        'value' => date('Y-m-d H:i:s'),
-                        'pluginOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd hh:ii:ss',
-                        ]
-                    ]);
-                    ?>
-                </div>
-            </div>
+            </form>
 
             <!-- Content Row -->
             <div class="row">
@@ -123,7 +109,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center">
                                         <div class="text-s font-weight-bold text-success text-uppercase mb-1">
-                                        <?=Yii::t('main', ' Количество машин приехало')?>
+                                            <?= Yii::t('main', 'Количество машин приехало') ?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $accepted ?></div>
                                     </div>
@@ -143,7 +129,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center ">
                                         <div class="text-s font-weight-bold text-danger text-uppercase mb-3">
-                                        <?=Yii::t('main', ' Количество машин уехало')?>
+                                            <?= Yii::t('main', 'Количество машин уехало') ?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $rejected ?></div>
                                     </div>
@@ -161,7 +147,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center">
                                         <div class="text-s font-weight-bold text-warning text-uppercase mb-1 ">
-                                        <?=Yii::t('main', ' Сумма приходв денежных средств')?>   
+                                            <?= Yii::t('main', 'Сумма приходв денежных средств') ?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalCost ?> сум</div>
                                     </div>
@@ -183,7 +169,7 @@ DateTimePickerAsset::register($this);
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-            
+
             </div>
         </div>
     </footer>
@@ -191,3 +177,28 @@ DateTimePickerAsset::register($this);
 
 </div>
 <!-- End of Content Wrapper -->
+
+
+<!-- Datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            language: "ru",
+            autoclose: true,
+            format: "dd/mm/yyyy"
+        });
+
+        const startDate = "#start-date";
+        const endDate = "#end-date";
+        $(startDate).on('change', submitForm);
+        $(endDate).on('change', submitForm);
+        function submitForm() {
+            if ($(startDate).val() != null && $(endDate).val()) {
+                document.getElementById('statistics-filter').submit();
+            }
+        }
+
+    });
+</script>
