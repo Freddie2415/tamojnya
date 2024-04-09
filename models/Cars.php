@@ -51,14 +51,14 @@ class Cars extends \yii\db\ActiveRecord
     {
         return [
             'id' => '№',
-            'country_id' => 'Страна автомобиля',
-            'car_number' => 'Номер автомобиля',
-            'model' => 'Марка автомобиля',
-            'phoneNumber' => 'Номер Телефона',
-            'arrivedDate' => 'Дата въезда',
-            'departureDate' => 'Дата выезда',
-            'status' => 'Статус',
-            'cost' => 'Стоимсть',
+            'country_id' => Yii::t('main', 'Страна автомобиля'),
+            'car_number' => Yii::t('main', 'Номер автомобиля'),
+            'model' => Yii::t('main', 'Марка автомобиля'),
+            'phoneNumber' => Yii::t('main', 'Номер телефона'),
+            'arrivedDate' => Yii::t('main', 'Дата въезда'),
+            'departureDate' =>Yii::t('main', 'Дата выезда'),
+            'status' => Yii::t('main', 'Статус'),
+            'cost' =>Yii::t('main', 'Стоимость'),
         ];
     }
 

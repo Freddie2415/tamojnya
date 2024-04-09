@@ -18,34 +18,43 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
+<!-- Sidebar Toggle (Topbar) -->
+<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+    <i class="fa fa-bars"></i>
+</button>
 
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-                <div class="topbar-divider d-none d-sm-block"></div>
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin </span>
-                        <img class="img-profile rounded-circle" src="<?= Yii::getAlias('@web/img/undraw_profile.svg') ?>">
-                    </a>
-                </li>
-            </ul>
-        </nav>
+<!-- Topbar Navbar -->
+<ul class="navbar-nav ml-auto">
+    <div class="topbar-divider d-none d-sm-block"></div>
+    <!-- Nav Item - User Information -->
+    <li class="nav-item dropdown no-arrow " style="color:black;">
+        <?php echo
+        Yii::$app->user->isGuest
+            ? ['label' => Yii::t('main', 'Войти'), 'url' => ['/site/login2']]
+            : '<li class="nav-item">'
+            . Html::beginForm(['/site/logout'])
+            . Html::submitButton(
+                 Yii::t('main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'nav-link btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>'
+        ?>
+    </li>
+</ul>
+
+</nav>
         <!-- End of Topbar -->
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Заявка № <?= $item->id ?></h1>
+                <h1 class="h3 mb-0 text-gray-800"><?=Yii::t('main', 'Заявка')?> № <?= $item->id ?></h1>
             </div>
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Данные</h6>
+                    <h6 class="m-0 font-weight-bold text-primary"><?=Yii::t('main', 'Данные')?></h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -56,31 +65,31 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                                     <td><?= $item->id ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Страна автомобиля:</th>
+                                    <th><?=Yii::t('main', 'Страна автомобиля')?>:</th>
                                     <td><?= $countries->name_ru ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Номер автомобиля:</th>
+                                    <th><?=Yii::t('main', 'Номер автомобиля')?>:</th>
                                     <td><?= $item->car_number ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Марка автомобиля:</th>
+                                    <th><?=Yii::t('main', 'Марка автомобиля')?>:</th>
                                     <td><?= $item->model ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Номер телефона:</th>
+                                    <th><?=Yii::t('main', 'Номер телефона')?>:</th>
                                     <td><?= $item->phoneNumber; ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Дата въезда:</th>
+                                    <th><?=Yii::t('main', 'Дата въезда')?>:</th>
                                     <td><?= $item->arrivedDate ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Дата выезда:</th>
+                                    <th><?=Yii::t('main', 'Дата выезда')?>:</th>
                                     <td><?= $item->departureDate ?></td>
                                 </tr>
                                 <tr>
-                                    <th>Стоимсть:</th>
+                                    <th><?=Yii::t('main', 'Стоимoсть')?>:</th>
 
                                     <td>
                                         <?php
@@ -93,15 +102,15 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Статус:</th>
+                                    <th><?=Yii::t('main', 'Статус')?>:</th>
                                     <?php if ($item->status == 'in_progress') {
-                                        echo "<td class='text-warning text-center' style='font-weight:bold'>На проверке</td>";
-                                    } else if ($item->status == 'denied') {
-                                        echo "<td class='text-danger  text-center' style='font-weight:bold'>Покинул базу</td>";
-                                    } else {
-                                        echo "<td class='text-success text-center' style='font-weight:bold'>Одобрено</td>";
-                                    }
-                                    ?>
+                                            echo "<td class='text-warning text-center' style='font-weight:bold'>" . Yii::t('main', 'На проверке'). "</td>";
+                                        } else if ($item->status == 'denied') {
+                                            echo "<td class='text-danger  text-center' style='font-weight:bold'>" . Yii::t('main', 'Покинул стоянку ТКЦ'). "</td>";
+                                        } else if($item->status == 'accepted'){
+                                            echo "<td class='text-success text-center' style='font-weight:bold'>" . Yii::t('main', 'Одобрено таможней'). "</td>";
+                                        }
+                                        ?>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,7 +120,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                             <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#confirmRejectModal">     <span class="icon text-white-50">
                                             <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text">Одобрить</span></a>
+                                        <span class="text"><?=Yii::t('main', 'Одобрить')?></span></a>
 
                                 <?php }
                                 ?>
@@ -120,7 +129,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                             <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == 'operator') : ?>
                                 <?php if ($item->status == 'accepted') { ?>
                                     <button id="saveDataLink" type="button" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModalCenter">
-                                        Оформить на выезд
+                                    <?=Yii::t('main', 'Оформить на выезд')?> 
                                     </button>
                                 <?php }
                                 ?>
@@ -141,21 +150,21 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmRejectModalLabel">Одобрить авто</h5>
+                    <h5 class="modal-title" id="confirmRejectModalLabel"><?=Yii::t('main', 'Одобрить авто')?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Вы уверены, что хотите одобрить авто?
+                <?=Yii::t('main', 'Вы уверены, что хотите одобрить авто?')?>   
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?=Yii::t('main', 'Отмена')?></button>
                     <a href="<?= Url::to(['cars/accept', 'id' => $item->id]) ?>" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                         </span>
-                        <span class="text">Одобрить</span>
+                        <span class="text">  <?=Yii::t('main', 'Одобрить')?> </span>
                     </a>
                 </div>
             </div>
@@ -166,7 +175,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Оформить автомобиль № <?= $item->id ?> на выезд </h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">  <?=Yii::t('main', ' Оформить автомобиль')?> № <?= $item->id ?>  <?=Yii::t('main', ' на выезд ')?> </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

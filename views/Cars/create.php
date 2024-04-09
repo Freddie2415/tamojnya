@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Cars $model */
 
-$this->title = 'Добавить автомобил';
+$this->title =  Yii::t('main', 'Добавить автомобил');
 $this->params['breadcrumbs'][] = ['label' => 'Оператор', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,18 +19,18 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="topbar-divider d-none d-sm-block"></div>
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow " style="color:black;">
-                <?php echo
-                Yii::$app->user->isGuest
-                    ? ['label' => 'Login', 'url' => ['/site/login2']]
-                    : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-                ?>
+            <?php echo
+                    Yii::$app->user->isGuest
+                        ? ['label' => Yii::t('main', 'Войти'), 'url' => ['/site/login2']]
+                        : '<li class="nav-item">'
+                        . Html::beginForm(['/site/logout'])
+                        . Html::submitButton(
+                            Yii::t('main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
+                            ['class' => 'nav-link btn btn-link logout']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                    ?>
             </li>
             </li>
 

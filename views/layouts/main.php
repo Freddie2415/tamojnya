@@ -33,6 +33,8 @@ AppAsset::register($this);
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="<?= Yii::getAlias('@web/css/sb-admin-2.min.css') ?>" rel="stylesheet">
+    <!-- Datatables css -->
+
     <meta name="csrf-token" content="<?= Yii::$app->request->csrfToken ?>">
     <?= Html::csrfMetaTags() ?>
     <?php $this->head() ?>
@@ -47,12 +49,12 @@ AppAsset::register($this);
             <li class="nav-item ">
                 <a class="nav-link" href="<?= Url::toRoute('cars/index') ?>">
                     <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>Главная</span></a>
+                    <span> <?=Yii::t('main', 'Главная')?></span></a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="<?= Url::toRoute('site/about') ?>">
                     <i class="fa fa-check" aria-hidden="true"></i>
-                    <span>Статистика</span></a>
+                    <span><?=Yii::t('main', 'Статистика')?></span></a>
             </li>
             <hr class="sidebar-divider">
             <div class="text-center d-none d-md-inline">
@@ -76,10 +78,14 @@ AppAsset::register($this);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="login.html"><?=Yii::t('main', 'Выйти')?></a>
                 </div>
             </div>
         </div>
     </div>
+    <script src="<?= Yii::getAlias('@web/vendor/datatables/jquery.dataTables.min.js') ?>"></script>
+    <script src="<?= Yii::getAlias('@web/vendor/datatables/dataTables.bootstrap4.min.js') ?>"></script>
+    <script src="<?= Yii::getAlias('@web/js/demo/datatables-demo.js') ?>"></script>
+    
 </body>
 </html>

@@ -179,13 +179,14 @@ class CarsController extends Controller
             if ($interval->days == 0) {
                 $cost = 10000;
             } else {
-                $cost = $interval->days * 10000;
+            $cost = floatval($interval->days) * 10000;
+                
             }
             $item->cost = $cost;
 
             if ($item->save(false)) {
                 // Return success response with updated data
-                return ['success' => true, 'message' => 'Status changed to accepted', 'cost' =>  $cost,'id'=>$id];
+                return ['success' => true, 'message' => 'Status changed to accepted', 'cost' =>  $cost,'id'=>$id, 'days'=>$interval->days];
             } else {
                 // Return failure response if save operation fails
                 return ['success' => false, 'message' => 'Failed to change status'];

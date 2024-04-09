@@ -37,7 +37,7 @@ DateTimePickerAsset::register($this);
                 <li class="nav-item dropdown no-arrow " style="color:black;">
                     <?php echo
                     Yii::$app->user->isGuest
-                        ? ['label' => 'Login', 'url' => ['/site/login2']]
+                        ? ['label' => Yii::t('main', 'Войти'), 'url' => ['/site/login2']]
                         : '<li class="nav-item">'
                         . Html::beginForm(['/site/logout'])
                         . Html::submitButton(
@@ -54,7 +54,7 @@ DateTimePickerAsset::register($this);
 
         </nav>
         <!-- End of Topbar -->
-        <h1 class="h3 mb-3 text-gray-800  text-center">Статистика</h1>
+        <h1 class="h3 mb-3 text-gray-800  text-center"><?=Yii::t('main', 'Статистика')?></h1>
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Pending Requests Card Example -->
@@ -68,7 +68,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-s font-weight-bold text-primary text-uppercase mb-1 text-center">
-                                            Общее количество машин
+                                        <?=Yii::t('main', 'Общее количество машин')?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800 mt-2 text-center"><?= $all ?></div>
                                     </div>
@@ -123,7 +123,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center">
                                         <div class="text-s font-weight-bold text-success text-uppercase mb-1">
-                                            Количество машин приехало
+                                        <?=Yii::t('main', ' Количество машин приехало')?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $accepted ?></div>
                                     </div>
@@ -143,7 +143,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center ">
                                         <div class="text-s font-weight-bold text-danger text-uppercase mb-3">
-                                            Количество машин уехоло
+                                        <?=Yii::t('main', ' Количество машин уехало')?>
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $rejected ?></div>
                                     </div>
@@ -161,7 +161,7 @@ DateTimePickerAsset::register($this);
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2 text-center">
                                         <div class="text-s font-weight-bold text-warning text-uppercase mb-1 ">
-                                            Сумма приходв денежных средств
+                                        <?=Yii::t('main', ' Сумма приходв денежных средств')?>   
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalCost ?> сум</div>
                                     </div>
@@ -183,7 +183,7 @@ DateTimePickerAsset::register($this);
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2024</span>
+            
             </div>
         </div>
     </footer>

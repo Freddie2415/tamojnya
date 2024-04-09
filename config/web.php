@@ -11,6 +11,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'language' => 'ru',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -49,11 +50,35 @@ $config = [
                 ],
             ],
         ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'ru',
+                    'fileMap' => [
+                        'main' => 'main.php',
+                        'yii' => 'yii.php',
+                    ],
+                ],
+            ],
+        ],
         'db' => $db,
         'urlManager' => [
+            'class' => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'enableDefaultLanguageUrlCode' => true,
+            'enableLanguageDetection' => false,
+            'languages' => ['uz', 'ru'],
             'rules' => [
+                ''=>'cars/index',
+                'statistics'=>'site/about',
+                'finalists'=>'site/finalists',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
     ],

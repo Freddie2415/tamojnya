@@ -21,16 +21,16 @@ use yii\widgets\ActiveForm;
     <?php echo $form->field($model, 'country_id')->dropDownList(
         Countries::fetchData(),
         ['prompt' => 'Выберите страну', 'id' => 'country-dropdown']
-    )->label('Страна автомобиля');
+    )->label(Yii::t('main', 'Страна автомобиля'));
     ?>
     <div id="typeDropdownContainer" style="display: none;">
 
-        <label class="control-label">Тип номера авто</label>;
+        <label class="control-label"><?=Yii::t('main', 'Тип номера авто')?></label>
         <?= Html::dropDownList('type', '2', [
-            '1' => 'Физическое лицо номер',
-            '2' => 'Юридическое лицо номер',
-            '3' => 'Иностранный номер (желтый)',
-            '4' => 'Юридический номер (зеленый)',
+            '1' => Yii::t('main', 'Физическое лицо номер'),
+            '2' => Yii::t('main', 'Юридическое лицо номер'),
+            '3' => Yii::t('main', 'Иностранный номер (желтый)'),
+            '4' => Yii::t('main', 'Юридический номер (зеленый)'),
         ], ['class' => 'form-control mb-2', 'id' => 'carNumberTypeDropdown']) ?>
     </div>
 
@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton( Yii::t('main', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
