@@ -4,7 +4,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=tamojnyaDb',
     'username' => 'root',
-    'password' => '',
+    'password' => '10Dk3+XL!k+B',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
