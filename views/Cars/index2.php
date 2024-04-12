@@ -283,9 +283,8 @@ use app\models\Countries;
                                                                 ]
                                                             ) ?>
                                                     </span>
-                                                <? endif; ?>
+                                                <?php endif; ?>
                                             </td>
-
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
