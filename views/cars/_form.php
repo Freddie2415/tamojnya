@@ -17,15 +17,15 @@ use yii\widgets\ActiveForm;
 
 <div class="cars-form ">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'car-form']); ?>
     <?php echo $form->field($model, 'country_id')->dropDownList(
         Countries::fetchData(),
-        ['prompt' => 'Выберите страну', 'id' => 'country-dropdown']
+        ['prompt' => 'Выберите страну', 'id' => 'country-dropdown', 'required' => true]
     )->label(Yii::t('main', 'Страна автомобиля'));
     ?>
     <div id="typeDropdownContainer" style="display: none;">
 
-        <label class="control-label"><?=Yii::t('main', 'Тип номера авто')?></label>
+        <label class="control-label"><?= Yii::t('main', 'Тип номера авто') ?></label>
         <?= Html::dropDownList('type', '2', [
             '1' => Yii::t('main', 'Физическое лицо номер'),
             '2' => Yii::t('main', 'Юридическое лицо номер'),
@@ -34,11 +34,11 @@ use yii\widgets\ActiveForm;
         ], ['class' => 'form-control mb-2', 'id' => 'carNumberTypeDropdown']) ?>
     </div>
 
-    <?= $form->field($model, 'car_number') ?>
+    <?= $form->field($model, 'car_number')->textInput(['maxlength' => true, 'required' => true]) ?>
+    <div class="invalid-feedback" id="carNumberErrorMessage"></div>
+    <?= $form->field($model, 'model')->textInput(['maxlength' => true, 'required' => true]) ?>
 
-    <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'phoneNumber')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phoneNumber')->textInput(['maxlength' => true, 'required' => true]) ?>
 
     <?= $form->field($model, 'arrivedDate')->widget(DateTimePicker::classname(), [
         'options' => ['placeholder' => 'Enter datetime ...'],
@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <div class="form-group">
-        <?= Html::submitButton( Yii::t('main', 'Сохранить'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('main', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -79,95 +79,17 @@ use yii\widgets\ActiveForm;
     });
 </script>
 
-
-<script>
-    // Function to apply input mask based on selected dropdown value
-    // function applyInputMask(selectedValue) {
-    //     // Remove existing input mask (if any)
-    //     Inputmask.remove(document.getElementById('carNumber'));
-
-    //     // Apply input mask based on selected value
-    //     switch (selectedValue) {
-    //         case '1': // Standard Car Number (e.g., AB123CD)
-    //             Inputmask({ mask: 'AA999AA' }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         case '2': // Car Number with Region Code (e.g., 12ABC123)
-    //             Inputmask({ mask: '99AAA999' }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         case '3': // International Car Number (e.g., ABC-123)
-    //             Inputmask({ mask: 'AAA-999' }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         default:
-    //             // No input mask for other values
-    //             break;
-    //     }
-    // }
-
-    // // Event listener for dropdown change
-    // document.getElementById('carNumberType').addEventListener('change', function() {
-    //     var selectedValue = this.value;
-    //     applyInputMask(selectedValue);
-    // });
-
-    // // Apply input mask based on initial selected value
-    // var initialSelectedValue = document.getElementById('carNumberType').value;
-    // applyInputMask(initialSelectedValue);
-</script>
-
-<script>
-    // Function to apply input mask based on selected dropdown value
-    // function applyInputMask(selectedValue) {
-    //     // Remove existing input mask (if any)
-    //     Inputmask.remove(document.getElementById('carNumber'));
-
-    //     // Apply input mask based on selected value
-    //     switch (selectedValue) {
-    //         case '1': // Физическое лицо номер
-    //             Inputmask({
-    //                 mask: 'AA999AA'
-    //             }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         case '2': // Юридическое лицо номер
-    //             Inputmask({
-    //                 mask: '99AAA999'
-    //             }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         case '3': // Иностранный номер (желтый)
-    //             Inputmask({
-    //                 mask: 'AAA-999'
-    //             }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         case '4': // Юридический номер (зеленый)
-    //             Inputmask({
-    //                 mask: 'AA999999'
-    //             }).mask(document.getElementById('carNumber'));
-    //             break;
-    //         default:
-    //             // No input mask for other values
-    //             break;
-    //     }
-    // }
-
-    // // Event listener for dropdown change
-    // document.getElementById('carNumberTypeDropdown').addEventListener('change', function() {
-    //     var selectedValue = this.value;
-    //     applyInputMask(selectedValue);
-    // });
-
-    // // Apply input mask based on initial selected value
-    // var initialSelectedValue = document.getElementById('carNumberTypeDropdown').value;
-    // applyInputMask(initialSelectedValue);
-</script>
 <script>$(document).ready(function () {
         // слушаем событие изменения в элементе select
         $('#country-dropdown').change(function () {
+            resetCarNumberValidation()
             $('#cars-car_number').unmask();
             $('label[for="cars-car_number"]').text('Номер автомобиля');
             $('#cars-car_number').attr('placeholder', '');
 
             if (document.getElementById('typeDropdownContainer').style.display === 'block') {
                 $('#carNumberTypeDropdown').val('2').trigger('change');
-            }else {
+            } else {
                 $('#cars-car_number').val("");
             }
         })
@@ -184,7 +106,6 @@ use yii\widgets\ActiveForm;
             var value = $(this).val();
             // удаляем предыдущую маску, если она есть
             $('#cars-car_number').unmask();
-            console.log(value)
             // применяем новую маску в зависимости от выбранного значения
             if (value === '1') {
                 $('#cars-car_number').attr('placeholder', '01 A 123 BC');
@@ -229,6 +150,62 @@ use yii\widgets\ActiveForm;
                 });
             }
 
+        });
+
+        // Слушаем изменения в поле ввода номера авто
+        $('#cars-car_number').keyup(function () {
+            validateCarNumber(); // Выполняем валидацию при вводе номера авто
+        });
+
+        // Функция для выполнения кастомной валидации номера авто
+        function validateCarNumber() {
+            if ($('#country-dropdown').val() !== '242') {
+                return true;
+            }
+
+            var selectedType = $('#carNumberTypeDropdown').val(); // Получаем выбранный тип номера
+            var carNumber = $('#cars-car_number').val(); // Получаем введенный номер авто
+
+            // Определяем регулярное выражение для валидации в зависимости от выбранного типа
+            var regex;
+            if (selectedType === '1') {
+                regex = /^[0-9]{2} [A-Za-z] [0-9]{3} [A-Za-z]{2}$/; // Регулярное выражение для физического лица
+            } else if (selectedType === '2') {
+                regex = /^[0-9]{2} [0-9]{3} [A-Za-z]{3}$/; // Регулярное выражение для юридического лица
+            } else if (selectedType === '3') {
+                regex = /^[0-9]{2} [A-Za-z] [0-9]{6}$/; // Регулярное выражение для иностранного номера
+            } else if (selectedType === '4') {
+                regex = /^[0-9]{2} [A-Za-z] [0-9]{6}$/; // Регулярное выражение для юридического номера
+            }
+
+            // Выполняем валидацию
+            if (regex.test(carNumber)) {
+                $('#cars-car_number').removeClass('is-invalid'); // Удаляем класс ошибки
+                $('#carNumberErrorMessage').text(''); // Очищаем сообщение об ошибке
+                $('#carNumberErrorMessage').hide(); // Скрываем блок с сообщением об ошибке, если был показан
+                return true;
+            } else {
+                $('#cars-car_number').addClass('is-invalid'); // Добавляем класс ошибки
+                $('#carNumberErrorMessage').text('Некорректный номер автомобиля'); // Устанавливаем текст сообщения об ошибке
+                $('#carNumberErrorMessage').show(); // Показываем блок с сообщением об ошибке
+                return false;
+            }
+        }
+
+        // Функция для сброса валидации номера авто
+        function resetCarNumberValidation() {
+            $('#cars-car_number').removeClass('is-invalid'); // Удаляем класс ошибки
+            $('#cars-car_number').removeClass('was-validated'); // Удаляем класс was-validated
+            $('#carNumberErrorMessage').text(''); // Очищаем сообщение об ошибке
+            $('#carNumberErrorMessage').hide(); // Скрываем блок с сообщением об ошибке, если был показан
+        }
+
+        $('#car-form').submit(function (event) {
+            // Выполняем валидацию номера авто перед отправкой формы
+            if (!validateCarNumber()) {
+                // Если валидация не прошла успешно, отменяем отправку формы
+                event.preventDefault();
+            }
         });
     });
 </script>
