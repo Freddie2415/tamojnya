@@ -70,28 +70,12 @@ use yii\helpers\Url;
                 </div>
             </div>
             <form id="statistics-filter" method="get">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <div class="form-group mb-4">
-                            <div class="datepicker date input-group">
-                                <input name="start-date" type="text" placeholder="Start date" class="form-control"
-                                       value="<?= $startDate ?? "" ?>"
-                                       id="start-date">
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group mb-4">
-                            <div class="datepicker date input-group">
-                                <input name="end-date" type="text" placeholder="End date" class="form-control"
-                                       value="<?= $endDate ?? "" ?>"
-                                       id="end-date">
-                                <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                </div>
+                <div class="row mb-5">
+                    <div class="col-3">
+                        <div class="datepicker date input-group">
+                            <input class="form-control"  type="text" name="daterange" value=""/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                     </div>
@@ -123,7 +107,6 @@ use yii\helpers\Url;
                 <!-- Pending Requests Card Example -->
                 <div class="col-xl-4 col-md-6 mb-6 mt-2">
                     <a href="<?= Url::to('rejected') ?>">
-
                         <div class="card border-left-danger shadow h-100 py-2 mb-4">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -141,7 +124,7 @@ use yii\helpers\Url;
                 </div>
                 <!-- Pending Requests Card Example -->
                 <div class="col-xl-4 col-md-6 mb-6 mt-2">
-                    <a href="<?= Url::to('new') ?>">
+                    <a href="#">
                         <div class="card border-left-warning shadow h-100 py-2 mb-4">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -180,25 +163,19 @@ use yii\helpers\Url;
 
 
 <!-- Datepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
 <script>
     $(function () {
-        $('.datepicker').datepicker({
-            language: "ru",
-            autoclose: true,
-            format: "dd/mm/yyyy"
+        var startDate = '<?php echo $startDate; ?>';
+        var endDate = '<?php echo $endDate; ?>';
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: 'DD/MM/YYYY',
+            },
+            startDate: startDate, // Задаем начальную дату
+            endDate: endDate // Задаем конечную дату
+        }, function (start, end, label) {
+            setTimeout(() => document.getElementById('statistics-filter').submit(), 300)
         });
-
-        const startDate = "#start-date";
-        const endDate = "#end-date";
-        $(startDate).on('change', submitForm);
-        $(endDate).on('change', submitForm);
-        function submitForm() {
-            if ($(startDate).val() != null && $(endDate).val()) {
-                document.getElementById('statistics-filter').submit();
-            }
-        }
-
     });
 </script>
