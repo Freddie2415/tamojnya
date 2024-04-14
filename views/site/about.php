@@ -15,34 +15,46 @@ use yii\helpers\Url;
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                <i class="fa fa-bars"></i>
-            </button>
+<!-- Sidebar Toggle (Topbar) -->
+<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+    <i class="fa fa-bars"></i>
+</button>
 
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-                <div class="topbar-divider d-none d-sm-block"></div>
-                <!-- Nav Item - User Information -->
-                <li class="nav-item dropdown no-arrow " style="color:black;">
-                    <?php echo
-                    Yii::$app->user->isGuest
-                        ? ['label' => Yii::t('main', 'Войти'), 'url' => ['/site/login2']]
-                        : '<li class="nav-item">'
-                        . Html::beginForm(['/site/logout'])
-                        . Html::submitButton(
-                            'Logout (' . Yii::$app->user->identity->username . ')',
-                            ['class' => 'nav-link btn btn-link logout']
-                        )
-                        . Html::endForm()
-                        . '</li>'
-                    ?>
-                </li>
-                </li>
+<!-- Topbar Navbar -->
+<ul class="navbar-nav ml-auto">
+    <div class="topbar-divider d-none d-sm-block"></div>
+    <!-- Nav Item - User Information -->
+    <?php
+    if (Yii::$app->language == 'uz') {
+    ?>
+        <li><a class='nav-link active mt-3 ' href='<?php echo Url::to(['', 'language' => 'uz']) ?>'>Uz</a></li>
+    <?php } else {
+    ?><li><a class='nav-link mt-3' href='<?php echo Url::to(['', 'language' => 'uz']) ?>'>Uz</a></li>
+    <?php }
+    if (Yii::$app->language == 'ru') {
+    ?><li><a class='nav-link active  mt-3' href='<?php echo Url::to(['', 'language' => 'ru']) ?>'>Ru</a></li>
+    <?php } else {
+    ?><li><a class='nav-link  mt-3' href='<?php echo Url::to(['', 'language' => 'ru']) ?>'>Ru</a></li>
+    <?php }
+    
+    ?>
+    <li class="nav-item dropdown no-arrow " style="color:black;">
+        <?php echo
+        Yii::$app->user->isGuest
+            ? ['label' => Yii::t('main', 'Войти'), 'url' => ['/site/login2']]
+            : '<li class="nav-item">'
+            . Html::beginForm(['/site/logout'])
+            . Html::submitButton(
+                Yii::t('main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'nav-link btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>'
+        ?>
+    </li>
+</ul>
 
-            </ul>
-
-        </nav>
+</nav>
         <!-- End of Topbar -->
         <h1 class="h3 mb-3 text-gray-800  text-center"><?= Yii::t('main', 'Статистика') ?></h1>
         <!-- Begin Page Content -->

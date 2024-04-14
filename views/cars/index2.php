@@ -36,7 +36,7 @@ use app\models\Countries;
                 <?php } else {
                 ?><li><a class='nav-link  mt-3' href='<?php echo Url::to(['', 'language' => 'ru']) ?>'>Ru</a></li>
                 <?php }
-                
+
                 ?>
                 <li class="nav-item dropdown no-arrow " style="color:black;">
                     <?php echo
@@ -82,7 +82,7 @@ use app\models\Countries;
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            <?= Yii::t('main', 'Общее количество машин') ?> </div>
+                                            <?= Yii::t('main', 'Общее количество машин на стоянке') ?> </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $all ?></div>
                                     </div>
                                     <div class="col-auto">
@@ -123,7 +123,7 @@ use app\models\Countries;
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            <?= Yii::t('main', ' Количество машин приехало') ?> </div>
+                                            <?= Yii::t('main', 'Количество машин приехало') ?> </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $accepted ?></div>
                                     </div>
                                     <div class="col-auto">
@@ -144,7 +144,7 @@ use app\models\Countries;
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                            <?= Yii::t('main', ' Количество машин уехало') ?> </div>
+                                            <?= Yii::t('main', 'Количество машин уехало') ?> </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $rejected ?></div>
                                     </div>
                                     <div class="col-auto">
@@ -202,7 +202,7 @@ use app\models\Countries;
                                                 if ($item->cost == null) {
                                                     echo "0 сум";
                                                 } else {
-                                                    echo $item->cost . " сум"; // Add a space before "сум" for better readability
+                                                    echo number_format($item->cost, 0, '.', ',') . " сум";
                                                 }
                                                 ?>
                                             </td>
@@ -251,7 +251,7 @@ use app\models\Countries;
                                                 if ($item->cost == null) {
                                                     echo "0 сум";
                                                 } else {
-                                                    echo $item->cost . " сум"; // Add a space before "сум" for better readability
+                                                    echo number_format($item->cost, 0, '.', ',') . " сум";
                                                 }
                                                 ?>
                                             </td>
@@ -311,3 +311,20 @@ use app\models\Countries;
 
 </div>
 <!-- End of Content Wrapper -->
+<script>
+    $(document).ready(function() {
+        var languageUrl = 'https://cdn.datatables.net/plug-ins/2.0.3/i18n/';
+        var lang = 'uz'; // Default language
+
+        // Check if site language is Russian
+        if (document.documentElement.lang === 'ru') {
+            lang = 'ru';
+        }
+
+        $('#dataTable').DataTable({
+            language: {
+                url: languageUrl + lang + '.json'
+            }
+        });
+    });
+</script>

@@ -15,8 +15,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
 
     <!-- Main Content -->
     <div id="content">
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 <!-- Sidebar Toggle (Topbar) -->
 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -27,6 +26,20 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
 <ul class="navbar-nav ml-auto">
     <div class="topbar-divider d-none d-sm-block"></div>
     <!-- Nav Item - User Information -->
+    <?php
+    if (Yii::$app->language == 'uz') {
+    ?>
+        <li><a class='nav-link active mt-3 ' href='<?php echo Url::to(['', 'language' => 'uz']) ?>'>Uz</a></li>
+    <?php } else {
+    ?><li><a class='nav-link mt-3' href='<?php echo Url::to(['', 'language' => 'uz']) ?>'>Uz</a></li>
+    <?php }
+    if (Yii::$app->language == 'ru') {
+    ?><li><a class='nav-link active  mt-3' href='<?php echo Url::to(['', 'language' => 'ru']) ?>'>Ru</a></li>
+    <?php } else {
+    ?><li><a class='nav-link  mt-3' href='<?php echo Url::to(['', 'language' => 'ru']) ?>'>Ru</a></li>
+    <?php }
+    
+    ?>
     <li class="nav-item dropdown no-arrow " style="color:black;">
         <?php echo
         Yii::$app->user->isGuest
@@ -34,7 +47,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
             : '<li class="nav-item">'
             . Html::beginForm(['/site/logout'])
             . Html::submitButton(
-                 Yii::t('main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
+                Yii::t('main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'nav-link btn btn-link logout']
             )
             . Html::endForm()
@@ -89,14 +102,14 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                                     <td><?= $item->departureDate ?></td>
                                 </tr>
                                 <tr>
-                                    <th><?=Yii::t('main', 'Стоимoсть')?>:</th>
+                                    <th><?=Yii::t('main', 'Стоимость')?>:</th>
 
                                     <td>
                                         <?php
                                         if ($item->cost == null) {
                                             echo "0 сум";
                                         } else {
-                                            echo $item->cost . " сум"; // Add a space before "сум" for better readability
+                                            echo number_format($item->cost, 0, '.', ',') . " сум";// Add a space before "сум" for better readability
                                         }
                                         ?>
                                     </td>
@@ -175,7 +188,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">  <?=Yii::t('main', ' Оформить автомобиль')?> № <?= $item->id ?>  <?=Yii::t('main', ' на выезд ')?> </h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle">  <?=Yii::t('main', 'Оформить автомобиль')?> № <?= $item->id ?>  <?=Yii::t('main', ' на выезд')?> </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -244,13 +257,12 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                     // Error: Log the error
                     console.error('AJAX request failed:', errorThrown);
                 });
-
             $.get(url, function(data) {
                 // Update modal content with the response from the controller action
                 $('#modalBody').html('<form action="/cars/reject?id=' + data.id + '" method="post">' +
-                    '<span>Сумма к оплате:</span>' +
-                    '<h5>' + data.cost + ' сум</h5>' +
-                    '<button type="submit" class="btn btn-danger btn-icon-split" style="font-size: initial; padding: 0.5rem 1rem;">Оформить</button>' +
+                    "<span><?=Yii::t('main', 'Сумма к оплате:')?></span>" +
+                    '<h5>' + data.cost.toLocaleString('ru-RU')+ ' сум</h5>' +
+                    '<button type="submit" class="btn btn-danger btn-icon-split" style="font-size: initial; padding: 0.5rem 1rem;"><?=Yii::t('main', 'Оформить')?></button>' +
                     '</form>');
 
                 // Open the modal

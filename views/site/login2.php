@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->field($model, 'username')
                     ->textInput([
                         'maxlength' => true,
-                        'placeholder' => 'Username',
+                        'placeholder' =>  Yii::t('main', 'Логин'),
                         'class' => 'login__input',
                     ])
                     ->label(false)
@@ -37,13 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->field($model, 'password')
                     ->passwordInput([
                         'maxlength' => true,
-                        'placeholder' => 'Password',
+                        'placeholder' =>  Yii::t('main', 'Пароль'),
                         'class' => 'login__input',
                     ])
                     ->label(false)
                 ?>
             </div>
-            <?= Html::submitButton('Log In Now', [
+            <?= Html::submitButton( Yii::t('main', 'Войти'), [
                 'class' => 'button login__submit'
             ]) ?>
             <?php ActiveForm::end(); ?>
