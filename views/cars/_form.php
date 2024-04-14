@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <?php echo $form->field($model, 'country_id')->dropDownList(
         Countries::fetchData(),
-        ['prompt' => Yii::t('main', 'Выберите страну'), 'id' => 'country-dropdown']
+        ['prompt' => 'Выберите страну', 'id' => 'country-dropdown']
     )->label(Yii::t('main', 'Страна автомобиля'));
     ?>
     <div id="typeDropdownContainer" style="display: none;">

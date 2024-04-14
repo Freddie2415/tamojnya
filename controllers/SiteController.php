@@ -205,23 +205,26 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        $startDate = Yii::$app->request->get('start-date');
-        $endDate = Yii::$app->request->get('end-date');
+        $dateRange = Yii::$app->request->get('daterange', "");
 
-        // Преобразование формата даты, если заданы начальная и конечная даты
-        if ($startDate !== null && $endDate !== null) {
-            $startDate = \DateTime::createFromFormat('d/m/Y', $startDate)->format('Y-m-d');
-            $endDate = \DateTime::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+        // Парсинг диапазона дат
+        $dates = explode(' - ', $dateRange);
+        $startDate = null;
+        $endDate = null;
+        if (count($dates) == 2) {
+            $startDate = \DateTime::createFromFormat('d/m/Y', $dates[0])->format('Y-m-d');
+            $endDate = \DateTime::createFromFormat('d/m/Y', $dates[1])->format('Y-m-d');
 
             // Добавление времени к начальной и конечной датам
             $startDate .= ' 00:00:00';
             $endDate .= ' 23:59:59';
         } else {
+            // Если даты не были выбраны, используем текущий месяц
             $startDate = date('Y-m-01 00:00:00'); // Первый день текущего месяца
-            $endDate = date('Y-m-t 23:59:59');
+            $endDate = date('Y-m-t 23:59:59'); // Последний день текущего месяца
         }
 
-        // Запрос к базе данных с учетом диапазона дат или без него
+        // Запросы к базе данных с учетом диапазона дат или без него
         $accepted = Cars::find()
             ->andWhere(['between', 'arrivedDate', $startDate, $endDate])
             ->count();
@@ -234,9 +237,9 @@ class SiteController extends Controller
         $totalCost = Cars::find()
             ->where(['status' => 'denied'])
             ->andWhere(['between', 'departureDate', $startDate, $endDate])
-            ->sum('cost');
+            ->sum('cost') ?? 0;
 
-        // Запрос общее кол-во машин на стоянке
+        // Запрос общего количества машин на стоянке
         $all = Cars::find()
             ->where([
                 'status' => [
@@ -254,7 +257,7 @@ class SiteController extends Controller
             'accepted' => $accepted,
             'rejected' => $rejected,
             'all' => $all,
-            'totalCost' => $totalCost,
+            'totalCost' => number_format($totalCost, 0, '.', ' '),
             'startDate' => $startDate,
             'endDate' => $endDate,
         ]);
