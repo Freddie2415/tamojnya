@@ -13,24 +13,24 @@ use yii\web\Response;
 /**
  * CarsController implements the CRUD actions for Cars model.
  */
-class CarsController extends Controller
+class CarsController extends BaseController
 {
     /**
      * @inheritDoc
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['post'],
-                    ],
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'index'  => ['get'],
+                    'view'   => ['get'],
+                    'create' => ['get', 'post'],
+                    'update' => ['get', 'put', 'post'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -81,7 +81,7 @@ class CarsController extends Controller
         $this->layout = 'main';
         $model = new Cars();
         $type = null;
-        $model->status='in_progress';
+        $model->status = 'in_progress';
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -128,26 +128,13 @@ class CarsController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index2']);
+        return $this->redirect(['index']);
     }
     public function actionAccept($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         $item = Cars::findOne(['id' => $id]);
-        // if ($item) {
-        
-        //     if ($item->save(false)) {
-        //         // Return success response with updated data
-        //         return ['success' => true, 'message' => 'Status changed to accepted', 'status' =>  $item,'id'=>$id];
-        //     } else {
-        //         // Return failure response if save operation fails
-        //         return ['success' => false, 'message' => 'Failed to change status'];
-        //     }
-        // } else {
-        //     // Return failure response if item is not found
-        //     return ['success' => false, 'message' => 'Item not found'];
-        // }
         $item->status = 'accepted';
 
         $item->save(false);
@@ -179,14 +166,13 @@ class CarsController extends Controller
             if ($interval->days == 0) {
                 $cost = 10000;
             } else {
-            $cost = floatval($interval->days) * 10000;
-                
+                $cost = floatval($interval->days) * 10000;
             }
             $item->cost = $cost;
 
             if ($item->save(false)) {
                 // Return success response with updated data
-                return ['success' => true, 'message' => 'Status changed to accepted', 'cost' =>  $cost,'id'=>$id, 'days'=>$interval->days];
+                return ['success' => true, 'message' => 'Status changed to accepted', 'cost' =>  $cost, 'id' => $id, 'days' => $interval->days];
             } else {
                 // Return failure response if save operation fails
                 return ['success' => false, 'message' => 'Failed to change status'];

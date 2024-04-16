@@ -1,16 +1,10 @@
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteRule . index.php [L]
-
 Options +FollowSymLinks
 IndexIgnore */*
 
-RewriteEngine on
+RewriteEngine On
 
-# if a directory or a file exists, use it directly
+# If the request is not for a valid file or directory
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# otherwise forward it to index.php
-RewriteRule . index.php
+# Rewrite the request to index.php
+RewriteRule ^(.*)$ index.php/$1 [L]
