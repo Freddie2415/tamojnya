@@ -259,7 +259,7 @@ $countries = Countries::find()->where(['id' => $item->country_id])->one();
                 });
             $.get(url, function(data) {
                 // Update modal content with the response from the controller action
-                $('#modalBody').html('<form action="/cars/reject?id=' + data.id + '" method="post">' +
+                $('#modalBody').html('<form action="<?= Url::to(['/cars/reject', 'id' => $item->id]) ?>" method="post">' +
                     "<span><?=Yii::t('main', 'Сумма к оплате:')?></span>" +
                     '<h5>' + data.cost.toLocaleString('ru-RU')+ ' сум</h5>' +
                     '<button type="submit" class="btn btn-danger btn-icon-split" style="font-size: initial; padding: 0.5rem 1rem;"><?=Yii::t('main', 'Оформить')?></button>' +
