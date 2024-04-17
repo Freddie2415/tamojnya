@@ -40,6 +40,10 @@ class CarsController extends BaseController
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect("/site/login");
+        }
+
 
         $model = Cars::find()->all();
         $new = Cars::find()->where(['status' => 'in_progress'])->count();
@@ -65,6 +69,10 @@ class CarsController extends BaseController
      */
     public function actionView($id)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect("/site/login");
+        }
+
         $item = Cars::find()->where(['id' => $id])->one();
         return $this->render('view', [
             'item' => $item,

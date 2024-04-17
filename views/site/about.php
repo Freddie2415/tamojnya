@@ -63,7 +63,7 @@ use yii\helpers\Url;
             <div class="center d-flex justify-content-center">
 
                 <div class=" mb-4  ">
-                    <a href="<?= Url::home($schema = null) ?>">
+                    <a href="#">
 
                         <div class="card border-left-primary shadow h-100 py-2 pr-5 pl-5 mb-4">
                             <div class="card-body">
@@ -98,7 +98,7 @@ use yii\helpers\Url;
             <div class="row">
                 <!-- Pending Requests Card Example -->
                 <div class="col-xl-4 col-md-6 mb-6 mt-2">
-                    <a href="<?= Url::to('accepted') ?>">
+                    <a href="#">
 
                         <div class="card border-left-success shadow h-100 py-2 mb-4">
                             <div class="card-body">
@@ -118,7 +118,7 @@ use yii\helpers\Url;
 
                 <!-- Pending Requests Card Example -->
                 <div class="col-xl-4 col-md-6 mb-6 mt-2">
-                    <a href="<?= Url::to('rejected') ?>">
+                    <a href="#">
                         <div class="card border-left-danger shadow h-100 py-2 mb-4">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
