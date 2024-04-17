@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
     ?>
     <div id="typeDropdownContainer" style="display: none;">
 
-        <label class="control-label"><?=Yii::t('main', 'Тип номера авто')?></label>
+        <label class="control-label"><?= Yii::t('main', 'Тип номера авто') ?></label>
         <?= Html::dropDownList('type', '2', [
             '1' => Yii::t('main', 'Физическое лицо номер'),
             '2' => Yii::t('main', 'Юридическое лицо номер'),
@@ -52,7 +52,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <div class="form-group">
-        <?= Html::submitButton( Yii::t('main', 'Сохранить'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('main', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -167,7 +167,7 @@ use yii\widgets\ActiveForm;
 
             if (document.getElementById('typeDropdownContainer').style.display === 'block') {
                 $('#carNumberTypeDropdown').val('2').trigger('change');
-            }else {
+            } else {
                 $('#cars-car_number').val("");
             }
         })
@@ -230,5 +230,8 @@ use yii\widgets\ActiveForm;
             }
 
         });
+
+        // set uzbekistan country as default
+        $('#country-dropdown').val('242').trigger('change');
     });
 </script>
