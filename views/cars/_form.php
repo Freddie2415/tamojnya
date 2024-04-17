@@ -230,8 +230,5 @@ use yii\widgets\ActiveForm;
             }
 
         });
-
-        // set uzbekistan country as default
-        $('#country-dropdown').val('242').trigger('change');
     });
 </script>
