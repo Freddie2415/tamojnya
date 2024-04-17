@@ -231,3 +231,63 @@ vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xm
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
+
+# ====== PRODUCTION =======
+### /.htaccess 
+```
+RedirectMatch ^/site/login$ /web/site/login
+
+<IfModule mod_rewrite.c>
+    Options +SymLinksIfOwnerMatch
+    RewriteEngine On
+</IfModule>
+ 
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/.*
+    #RewriteRule ^assets/(.*)$ /web/assets/$1 [L]
+    #RewriteRule ^css/(.*)$ web/css/$1 [L]
+    #RewriteRule ^js/(.*)$ web/js/$1 [L]
+    #RewriteRule ^images/(.*)$ web/images/$1 [L]
+    RewriteRule ^(.*)$ web/$1 [L]
+
+    RewriteCond %{REQUEST_URI} !^/web/
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ web/index.php
+</IfModule> 
+```
+
+### /.htaccess/web/.htaccess
+```
+# Если это папка или файл, открываем его
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# В противном случае перенаправляем на index.php
+RewriteRule . index.php
+```
+
+### config/db.php
+```
+<?php
+
+return [
+    // 'class' => 'yii\db\Connection',
+    // 'dsn' => 'mysql:host=localhost;dbname=tamojnyaDb',
+    // 'username' => 'root',
+    // 'password' => '10Dk3+XL!k+B',
+    // 'charset' => 'utf8',
+
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=termezca_tamojnyaDB',
+    'username' => 'termezca_tamojnya_user',
+    'password' => '10Dk3+XL!k+B',
+    'charset' => 'utf8',
+    // Schema cache options (for production environment)
+    //'enableSchemaCache' => true,
+    //'schemaCacheDuration' => 60,
+    //'schemaCache' => 'cache',
+];
+```
+
+
